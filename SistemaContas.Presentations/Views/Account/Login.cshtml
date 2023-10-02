@@ -1,0 +1,67 @@
+﻿@model SistemaContas.Presentations.Models.AccountLoginModel
+
+@{
+    //define a página de layout que será herdada.
+    Layout = "~/Views/Shared/AccountLayout.cshtml";
+}
+
+@*row é utilizado para criar uma linha imaginária com colunas imaginárias, com tamanho 12.
+utilizados para organizar o conteúdo em uma gradde flexível.
+
+col-md-4 cria uma coluna de tamnho médio com tamanho 4.
+
+offset-md-4 centraliza o conteúdo, por que define uma sobra de 4 para esquerda e 4 para direita, sobrando somente a do centro.
+
+mt-5 define a margem no topo e dá um espaço de 5px do topo.
+*@
+<div class="row mt-5">
+    <div class="col-md-4 offset-md-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+                    <h1>Sistema de Contas</h1>
+
+                    <h5>Realizar Autenticação</h5>
+
+                    <hr />
+
+                    @*utilizado para criar formulários com razor, para poder receber e enviar dados.*@
+                    @using (Html.BeginForm())
+                    {
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="basic-addon1">E-mail:</span>
+                            @*<input type="text" class="form-control" placeholder="Digite seu e-mail..." aria-label="Username" aria-describedby="basic-addon1">*@
+                            
+                            @*inputando dados com razor*@
+                            @Html.TextBoxFor(x => x.Email, new {@class="form-control", placeholder="Digite seu e-mail..." })
+
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="basic-addon1">Senha:</span>
+                            @*<input type="password" class="form-control" placeholder="Digite sua senha..." aria-label="Username" aria-describedby="basic-addon1">*@
+
+                            @Html.PasswordFor(x => x.Password, new {@class="form-control", placeholder="Digite sua senha..." })
+                        </div>
+
+                        <div class="text-end mb-2">
+                            <a href="/Account/PasswordRecover" class="text-decoration-none">
+                                Esqueci minha senha.
+                            </a>
+                        </div>
+
+                        <div class="mb-2 d-grid">
+                            <input type="submit" value="Entrar" class="btn btn-dark" />
+                        </div>
+
+                        <div class="mb-2 d-grid">
+                            <a href="/Account/Register" class="text-decoration-none btn btn-warning">
+                                Não possui conta? <strong>Cadastre-se!</strong>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

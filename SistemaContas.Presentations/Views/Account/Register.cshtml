@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "~/Views/Shared/AccountLayout.cshtml";
+}
+
+<div class="row mt-5">
+    <div class="col-md-4 offset-md-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+@*                    <h1>Sistema de Contas</h1>
+*@
+                    <h3>Cadastrar Usuário</h3>
+
+                    <hr />
+
+                    <form>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="basic-addon1">Nome:</span>
+                            <input type="text" class="form-control" placeholder="Digite seu nome..." aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="basic-addon1">E-mail:</span>
+                            <input type="text" class="form-control" placeholder="Digite seu e-mail..." aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="basic-addon1">Senha:</span>
+                            <input type="password" class="form-control" placeholder="Digite sua senha..." aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="basic-addon1">Confirmar Senha:</span>
+                            <input type="password" class="form-control" placeholder="Confirme sua senha..." aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="mb-2 d-grid">
+                            <input type="submit" value="Cadastrar" class="btn btn-dark" />
+                        </div>
+
+                        <div class="mb-2 d-grid">
+                            <a href="/Account/Login" class="text-decoration-none btn btn-warning">
+                                Já possui conta? <strong>Acesse aqui!</strong>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
