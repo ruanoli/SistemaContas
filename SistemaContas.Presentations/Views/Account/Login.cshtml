@@ -29,11 +29,14 @@ mt-5 define a margem no topo e dá um espaço de 5px do topo.
                     @using (Html.BeginForm())
                     {
                         <div class="input-group mb-2">
-                            <span class="input-group-text" id="basic-addon1">E-mail:</span>
+                            <span class="input-group-text">E-mail:</span>
                             @*<input type="text" class="form-control" placeholder="Digite seu e-mail..." aria-label="Username" aria-describedby="basic-addon1">*@
-                            
+
                             @*inputando dados com razor*@
                             @Html.TextBoxFor(x => x.Email, new {@class="form-control", placeholder="Digite seu e-mail..." })
+                            <span class="text-danger">
+                                @Html.ValidationMessageFor(x => x.Email)
+                            </span>
 
                         </div>
 
@@ -42,6 +45,10 @@ mt-5 define a margem no topo e dá um espaço de 5px do topo.
                             @*<input type="password" class="form-control" placeholder="Digite sua senha..." aria-label="Username" aria-describedby="basic-addon1">*@
 
                             @Html.PasswordFor(x => x.Password, new {@class="form-control", placeholder="Digite sua senha..." })
+
+                            <span class="text-danger">
+                                @Html.ValidationMessageFor(x => x.Password)
+                            </span>
                         </div>
 
                         <div class="text-end mb-2">

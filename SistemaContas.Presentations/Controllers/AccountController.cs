@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using SistemaContas.Presentations.Models;
 
 namespace SistemaContas.Presentations.Controllers
 {
@@ -10,6 +11,13 @@ namespace SistemaContas.Presentations.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Login(AccountLoginModel model)
+        {
+            return View();
+        }
+
         public IActionResult Register()
         {
             return View();
