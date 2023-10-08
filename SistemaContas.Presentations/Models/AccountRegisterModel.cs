@@ -13,7 +13,7 @@ namespace SistemaContas.Presentations.Models
         [EmailAddress(ErrorMessage = "Por favor, informe um e-mail válido.")]
         public string? Email { get; set; }
 
-        [StrongPassword(ErrorMessage = "Essa senha é muito fraca, querido.")]
+        [StrongPassword(ErrorMessage = "Sua senha deve ter entre 8 e 16 caracteres, pelo menos 1 letra maiúscula, 1 minúscula, numerais e caracteres especiais.")]
         [Required(ErrorMessage = "A senha é um campo obrigatório!")]
         public string? Password { get; set; }
 

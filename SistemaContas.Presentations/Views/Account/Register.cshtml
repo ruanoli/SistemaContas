@@ -1,4 +1,6 @@
-﻿@{
+﻿@model SistemaContas.Presentations.Models.AccountRegisterModel
+
+@{
     Layout = "~/Views/Shared/AccountLayout.cshtml";
 }
 
@@ -7,31 +9,45 @@
         <div class="card">
             <div class="card-body">
                 <div class="text-center">
-@*                    <h1>Sistema de Contas</h1>
-*@
+                    @*                    <h1>Sistema de Contas</h1>
+                    *@
                     <h3>Cadastrar Usuário</h3>
 
                     <hr />
 
-                    <form>
+                    @using (Html.BeginForm())
+                    {
                         <div class="input-group mb-2">
                             <span class="input-group-text" id="basic-addon1">Nome:</span>
-                            <input type="text" class="form-control" placeholder="Digite seu nome..." aria-label="Username" aria-describedby="basic-addon1">
+                            @Html.TextBoxFor(x => x.Name,new {@class="form-control", placeholder="Digite seu nome..."})
+                            <span class="text-danger">
+                                @Html.ValidationMessageFor(x => x.Name)
+                            </span>
+
                         </div>
 
                         <div class="input-group mb-2">
                             <span class="input-group-text" id="basic-addon1">E-mail:</span>
-                            <input type="text" class="form-control" placeholder="Digite seu e-mail..." aria-label="Username" aria-describedby="basic-addon1">
+                            @Html.TextBoxFor(x => x.Email, new {@class="form-control", placeholder="Digite seu e-mail..."})
+                            <span class="text-danger">
+                                @Html.ValidationMessageFor(x => x.Email)
+                            </span>
                         </div>
 
                         <div class="input-group mb-2">
                             <span class="input-group-text" id="basic-addon1">Senha:</span>
-                            <input type="password" class="form-control" placeholder="Digite sua senha..." aria-label="Username" aria-describedby="basic-addon1">
+                            @Html.PasswordFor(x => x.Password, new {@class="form-control", placeholder="Digite sua senha..."})
+                            <span class="text-danger">
+                                @Html.ValidationMessageFor(x => x.Password)
+                            </span>
                         </div>
 
                         <div class="input-group mb-2">
                             <span class="input-group-text" id="basic-addon1">Confirmar Senha:</span>
-                            <input type="password" class="form-control" placeholder="Confirme sua senha..." aria-label="Username" aria-describedby="basic-addon1">
+                            @Html.PasswordFor(x => x.PasswordConfirmed, new {@class="form-control", placeholder="Confirme sua senha..."})
+                            <span class="text-danger">
+                                @Html.ValidationMessageFor(x => x.PasswordConfirmed)
+                            </span>
                         </div>
 
                         <div class="mb-2 d-grid">
@@ -43,7 +59,8 @@
                                 Já possui conta? <strong>Acesse aqui!</strong>
                             </a>
                         </div>
-                    </form>
+                    }
+
                 </div>
             </div>
         </div>
