@@ -9,7 +9,7 @@ namespace SistemaContas.Data.Configurations
     public class SqlServeConfiguration
     {
         public static string ConnectionString
-            => @"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=bd_sistema_contas;Integrated Security=True";
+            => @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=bd_sistema_contas;Integrated Security=True;";
         
     }
 }

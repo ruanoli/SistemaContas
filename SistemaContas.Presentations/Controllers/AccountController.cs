@@ -1,5 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using SistemaContas.Data.Entities;
+using SistemaContas.Data.Repositories;
 using SistemaContas.Presentations.Models;
 
 namespace SistemaContas.Presentations.Controllers
@@ -37,6 +39,34 @@ namespace SistemaContas.Presentations.Controllers
         [HttpPost]
         public IActionResult Register(AccountRegisterModel model)
         {
+            //Verifica se tem algum erro nos dados recebidos,
+            //com isso não será possível salvar dados sem ser validados no banco.
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var usuario = new UserRegister();
+
+                    usuario.Email = model.Email;
+                    usuario.IdUser = Guid.NewGuid();
+                    usuario.Name = model.Name;
+                    usuario.Password = model.Password;
+                    usuario.DateTimeCreation = DateTime.Now;
+
+                    var userRepository = new UserRepository();
+
+                    userRepository.Insert(usuario);
+
+                    //Tempdata é um dicionário (Armazena chave/valor).
+                    //Retorna uma mensagem para a página (View)
+                    TempData["Message"] = "Usuário cadastrado!";
+                }
+                catch(Exception ex)
+                {
+                    TempData["Message"] = "Falha ao cadastrar usuário!";
+
+                }
+            }
             return View();
         }
 
