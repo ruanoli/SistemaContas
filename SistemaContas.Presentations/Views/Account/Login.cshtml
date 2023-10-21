@@ -25,6 +25,10 @@ mt-5 define a margem no topo e dá um espaço de 5px do topo.
 
                     <hr />
 
+                    <div class="text-center mb-2 text-danger">
+                        <strong>@TempData["Message"]</strong>
+                    </div>
+
                     @*utilizado para criar formulários com razor, para poder receber e enviar dados.*@
                     @using (Html.BeginForm())
                     {

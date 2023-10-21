@@ -59,5 +59,61 @@ namespace SistemaContas.Data.Repositories
                 connection.Execute(query, user);
             }
         }
+
+        public UserRegister? GetByEmail(string email)
+        {
+            var query = @"
+                    SELECT * FROM USERREGISTER
+                    WHERE EMAIL = @email
+             ";
+
+            using(var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
+            {
+                return connection.Query<UserRegister>(query, new {email}).FirstOrDefault();
+            }
+
+        }
+
+        public List<UserRegister?> GetAll()
+        {
+            var query = @"
+                    SELECT * FROM USERREGISTER
+             ";
+
+            using (var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
+            {
+                return connection.Query<UserRegister?>(query).ToList();
+            }
+
+        }
+
+        public UserRegister? GetById(Guid id)
+        {
+            var query = @"
+                    SELECT * FROM USERREGISTER
+                    WHERE ID = @id
+             ";
+
+            using (var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
+            {
+                return connection.Query<UserRegister>(query, new { id }).FirstOrDefault();
+            }
+
+        }
+
+        public UserRegister? GetByEmailAndPassword(string email, string password)
+        {
+            var query = @"
+                    SELECT * FROM USERREGISTER
+                    WHERE EMAIL = @email 
+                    AND PASSWORD = CONVERT(VARCHAR(32), HASHBYTES('MD5', @password),2)
+             ";
+
+            using (var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
+            {
+                return connection.Query<UserRegister>(query, new { email, password }).FirstOrDefault();
+            }
+
+        }
     }
 }

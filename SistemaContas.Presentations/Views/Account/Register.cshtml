@@ -15,12 +15,10 @@
 
                     <hr />
 
-                   
-                        <div class="text-center mb-2">
-                            <strong>@TempData["Message"]</strong>
-                        </div>
 
-                   
+                    <div class="text-center mb-2">
+                        <strong>@TempData["Message"]</strong>
+                    </div>
 
                     @using (Html.BeginForm())
                     {
@@ -38,6 +36,9 @@
                             @Html.TextBoxFor(x => x.Email, new {@class="form-control", placeholder="Digite seu e-mail..."})
                             <span class="text-danger">
                                 @Html.ValidationMessageFor(x => x.Email)
+                            </span>
+                            <span class="text-danger">
+                                <strong>@TempData["ErrorEmail"]</strong>
                             </span>
                         </div>
 

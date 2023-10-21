@@ -28,6 +28,30 @@ namespace SistemaContas.Presentations.Controllers
         [HttpPost]
         public IActionResult Login(AccountLoginModel model)
         {
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var usuarioRepository = new UserRepository();
+                    var usuario = usuarioRepository.GetByEmailAndPassword(model.Email, model.Password);
+                    if (usuario != null)
+                    {
+                        //Redireciona para a página/método index do controlador Dashboard.
+                        return RedirectToAction("Index", "Dashboard");
+                    }
+                    else
+                    {
+                        TempData["Message"] = "E-mail e/ou senha inválidos.";
+                    }
+                }
+                catch
+                {
+                    TempData["Message"] = "Falha ao autenticar usuário";
+                }
+            }
+
+
             return View();
         }
 
@@ -45,26 +69,36 @@ namespace SistemaContas.Presentations.Controllers
             {
                 try
                 {
+                    var userRepository = new UserRepository();
                     var usuario = new UserRegister();
 
-                    usuario.Email = model.Email;
-                    usuario.IdUser = Guid.NewGuid();
-                    usuario.Name = model.Name;
-                    usuario.Password = model.Password;
-                    usuario.DateTimeCreation = DateTime.Now;
-
-                    var userRepository = new UserRepository();
+                    if (userRepository.GetByEmail(model.Email) != null)
+                    {
+                        TempData["ErrorEmail"] = "E-mail informado já existe no sistena, tente outro.";
+                    }
+                    else
+                    {
+                        usuario.Email = model.Email;
+                        usuario.IdUser = Guid.NewGuid();
+                        usuario.Name = model.Name;
+                        usuario.Password = model.Password;
+                        usuario.DateTimeCreation = DateTime.Now;
+                    }
 
                     userRepository.Insert(usuario);
 
                     //Tempdata é um dicionário (Armazena chave/valor).
                     //Retorna uma mensagem para a página (View)
-                    TempData["Message"] = "Usuário cadastrado!";
+                    //TempData["Message"] = "Usuário cadastrado!";
+
+                    //Limpa os campos no formulário depois de cadastra-los.
+                    ModelState.Clear();
+                    return RedirectToAction("Login");
+
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     TempData["Message"] = "Falha ao cadastrar usuário!";
-
                 }
             }
             return View();
