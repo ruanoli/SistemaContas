@@ -1,8 +1,12 @@
 ﻿
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SistemaContas.Data.Entities;
 using SistemaContas.Data.Repositories;
 using SistemaContas.Presentations.Models;
+using System.Security.Claims;
 
 namespace SistemaContas.Presentations.Controllers
 {
@@ -37,6 +41,27 @@ namespace SistemaContas.Presentations.Controllers
                     var usuario = usuarioRepository.GetByEmailAndPassword(model.Email, model.Password);
                     if (usuario != null)
                     {
+                        //armazenando os dados do usuário autenticado
+                        var userModel = new UserModel();
+                        
+                        userModel.Email = usuario.Email;
+                        userModel.IdUser = usuario.IdUser;
+                        userModel.Name = usuario.Name;
+                        userModel.DateTimeAcess = DateTime.Now;
+
+                        //serializar para json para armazenar os dados no arquivo de cookie
+                        var json = JsonConvert.SerializeObject(userModel);
+
+                        //criar a identificação do usuário autenticado para ser gravada no cookie de autenticação
+                        var identity = new ClaimsIdentity(new[]
+                        {
+                            new Claim(ClaimTypes.Name, json) //Identificação do usuário
+                        }, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                        //gravando a identificação no cookie de autorização.
+                        var principal = new ClaimsPrincipal(identity);
+                        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
                         //Redireciona para a página/método index do controlador Dashboard.
                         return RedirectToAction("Index", "Dashboard");
                     }
