@@ -1,12 +1,34 @@
-﻿@{
+﻿@using Newtonsoft.Json
+@using SistemaContas.Presentations.Models
+
+@{
     //define a página de layout que será herdada.
     Layout = "~/Views/Shared/MainLayout.cshtml";
+
+    //ler os dados contidos no cookie de autenticação
+    var data = User.Identity.Name;
+
+    //descerealizar os dados do usuário. De json para um objeto.
+    var userModel = JsonConvert.DeserializeObject<UserModel>(data);
 }
 
 <div class="container mt-3">
     <div class="card">
         <div class="card-body">
             <h4>Seja bem vindo!</h4>
+            <hr />
+
+            <div class="mb-2">
+                <strong>Nome do usuário:</strong> @userModel.Name
+            </div>
+
+            <div class="mb-2">
+                <strong>Email do usuário:</strong> @userModel.Email
+            </div>
+
+            <div class="mb-2">
+                <strong>Data e hora do último acesso:</strong> @userModel.DateTimeAcess
+            </div>
         </div>
     </div>
 </div>
