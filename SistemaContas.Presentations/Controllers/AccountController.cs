@@ -60,7 +60,10 @@ namespace SistemaContas.Presentations.Controllers
 
                         //gravando a identificação no cookie de autorização.
                         var principal = new ClaimsPrincipal(identity);
+
+                        //autentica o usuário.
                         HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
 
                         //Redireciona para a página/método index do controlador Dashboard.
                         return RedirectToAction("Index", "Dashboard");
@@ -138,6 +141,16 @@ namespace SistemaContas.Presentations.Controllers
         public IActionResult PasswordRecover(AccountPasswordRecoverModel model)
         {
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            //apagar o cookie de autenticação (a identificação do usuário)
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme); //deslogando o usuário.
+
+
+            return RedirectToAction("Login", "Account");
+
         }
     }
 }
