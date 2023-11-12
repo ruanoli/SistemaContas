@@ -45,13 +45,13 @@ namespace SistemaContas.Data.Repositories
             }
         }
 
-        public void GetAll(Guid idUser)
+        public List<Category> GetAll(Guid idUser)
         {
            var query = @"SELECT * FROM CATEGORY WHERE IDUSER = @idUser ORDER BY NAME";
 
             using (var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
             {
-                connection.Query<Category>(query, new {idUser}).ToList();
+                return connection.Query<Category>(query, new {idUser}).ToList();
             }
         }
 
@@ -59,13 +59,13 @@ namespace SistemaContas.Data.Repositories
         /// Retorna as categorias cadastradas ao usuário que está acessando o sistema.
         /// </summary>
         /// <param name="id"></param>
-        public void GetById(Guid id)
+        public Category? GetById(Guid id)
         {
             var query = @"SELECT * FROM CATEGORY WHERE IDCATEGORY = @id";
 
             using (var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
             {
-                connection.Query<Category>(query, new {id}).FirstOrDefault();
+                return connection.Query<Category>(query, new {id}).FirstOrDefault();
             }
         }
     }

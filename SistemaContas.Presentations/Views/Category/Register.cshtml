@@ -1,0 +1,26 @@
+﻿@model SistemaContas.Presentations.Models.CategoryModel
+
+@{
+    ViewData["Title"] = "Cadastro Categoria";
+
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="mb-2">
+        <div class="col-md-6">
+            <label>Nome da Categoria:</label>
+            @Html.TextBoxFor(x => x.Name, new {@class="form-control", placeholder="Digite um nome para sua categoria."})
+            <span class="text-danger">
+                @Html.ValidationMessageFor(x => x.Name)
+            </span>
+        </div>      
+    </div>
+
+    <div class="mb-2">
+        <div class="col-md-6">
+            <input type="submit" value="Cadastrar" class="btn btn-dark" />
+        </div>
+    </div>
+}
