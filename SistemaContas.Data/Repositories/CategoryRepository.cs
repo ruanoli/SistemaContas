@@ -15,7 +15,7 @@ namespace SistemaContas.Data.Repositories
         public void Insert(Category category)
         {
             var query = @"INSERT INTO CATEGORY(IDCATEGORY, NAME, IDUSER)
-                        VALUE(@IdCategory, @Name, @IdUser)";
+                        VALUES(@IdCategory, @Name, @IdUser)";
 
             using(var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
             {

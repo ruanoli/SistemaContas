@@ -42,16 +42,20 @@ namespace SistemaContas.Presentations.Controllers
 
                     categoryRepository.Insert(categoryModel);
 
-                    TempData["MensagemSucesso"] = "Categoria cadastrada com sucesso";
+                    TempData["MessageSuccess"] = "Categoria cadastrada com sucesso";
+                    ModelState.Clear();
+
+                    return RedirectToAction("Index", "Dashboard");
+
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    TempData["MensagemErro"] = "Erro ao cadastrar categoria.";
+                    TempData["MessageError"] = "Erro ao cadastrar categoria.";
                 }
             }
             else
             {
-                TempData["MensagemAlerta"] = "Algo deu errado! Certifique-se que o preenchimento do formulário está correto";
+                TempData["MessageAlert"] = "Algo deu errado! Certifique-se que o preenchimento do formulário está correto";
             }
 
             return View();

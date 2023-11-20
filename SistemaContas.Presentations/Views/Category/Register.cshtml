@@ -8,14 +8,19 @@
 
 @using (Html.BeginForm())
 {
+    <div class="text-center">
+        <h3>Cadastro de Categoria</h3>
+    </div>
+
     <div class="mb-2">
+       
         <div class="col-md-6">
             <label>Nome da Categoria:</label>
             @Html.TextBoxFor(x => x.Name, new {@class="form-control", placeholder="Digite um nome para sua categoria."})
             <span class="text-danger">
                 @Html.ValidationMessageFor(x => x.Name)
             </span>
-        </div>      
+        </div>
     </div>
 
     <div class="mb-2">
