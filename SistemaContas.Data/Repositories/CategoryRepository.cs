@@ -45,7 +45,7 @@ namespace SistemaContas.Data.Repositories
             }
         }
 
-        public List<Category> GetAll(Guid idUser)
+        public List<Category> GetAllByUser(Guid idUser)
         {
            var query = @"SELECT * FROM CATEGORY WHERE IDUSER = @idUser ORDER BY NAME";
 

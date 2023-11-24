@@ -13,6 +13,6 @@
         public DateTime Date { get; set; }
         public Guid IdCategory { get; set; }
 
-        public CategoryModel? Category { get; set; }
+        public CategoryRegisterModel? Category { get; set; }
     }
 }

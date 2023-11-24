@@ -8,7 +8,7 @@ namespace SistemaContas.Presentations.Models
     /// Que podem ser relacionadas as contas:
     /// Jogo FIFA (Conta) Despesa Cartão de Crédito(Categoria)
     /// </summary>
-    public class CategoryModel
+    public class CategoryRegisterModel
     {
         [Required(ErrorMessage = "Informe o nome da categoria")]
         [MinLength(3, ErrorMessage = "O nome deve ter no mínimo {1} caracteres.")]

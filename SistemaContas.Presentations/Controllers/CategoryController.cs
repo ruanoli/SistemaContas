@@ -9,6 +9,10 @@ namespace SistemaContas.Presentations.Controllers
     [Authorize]
     public class CategoryController : Controller
     {
+        /// <summary>
+        /// Método utilizado somente para carregar a página de cadastro.
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Register()
         {
             return View();
@@ -21,7 +25,7 @@ namespace SistemaContas.Presentations.Controllers
         /// <param name="category"></param>
         /// <returns></returns>
         [HttpPost] 
-        public IActionResult Register(CategoryModel category)
+        public IActionResult Register(CategoryRegisterModel category)
         {
             //Todo método que recebe dados de um formulário é preciso verificar se esses dados são válidos
             if (ModelState.IsValid)
@@ -61,9 +65,44 @@ namespace SistemaContas.Presentations.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Método utilizado para ir ao banco e listar na página as categorias do usuário autenticado.
+        /// O método vai ser assionado assim que a página de consulta for aberta.
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Query()
         {
-            return View();
+            var listCategories = new List<CategoryQueryModel>();
+
+            try
+            {
+                var user = User.Identity?.Name;
+                var userModel = JsonConvert.DeserializeObject<UserModel>(user);
+
+                var categoryRepository = new CategoryRepository();
+
+                var categories = categoryRepository.GetAllByUser(userModel.IdUser);
+
+                //Estou varrendo cada categoria que buscamos no banco vinculadas ao usuário autenticado
+                //e para cada uma criamos o obeto model, 
+                //no objeto model estamos preenchendo o id e nome da categoria.
+                //depois eu adiciono o objeto na listCategory, e envio o resultado para a página.
+                foreach(var category in categories)
+                {
+                    var model = new CategoryQueryModel();
+                    model.Name = category.Name;
+                    model.IdCategory = category.IdCategory;
+
+                    listCategories.Add(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["MessageError"] = "Erro ao cadastrar categoria.";
+            }
+
+            //Passando o objeto e enviando para a página.
+            return View(listCategories);
         }
     }
 }
