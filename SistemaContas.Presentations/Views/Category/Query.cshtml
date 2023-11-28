@@ -27,11 +27,12 @@
                             @item.Name
                         </td>
                         <td class="text-black text-center">
-                            <a href="" class="btn btn-outline-warning btn-sm">
+                            <a href="/Category/Edit/@item.IdCategory" class="btn btn-outline-warning btn-sm">
                                 Editar
                             </a>
 
-                            <a href="" class="btn btn-outline-danger btn-sm">
+                            <a href="/Category/Delete/@item.IdCategory" class="btn btn-outline-danger btn-sm"
+                               onclick="return confirm('Tem certeza? Vai fazer merda.')">
                                 Excluir
                             </a>
                         </td>

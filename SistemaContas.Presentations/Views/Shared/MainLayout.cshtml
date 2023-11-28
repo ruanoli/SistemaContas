@@ -118,7 +118,13 @@
         })
 
         //Inicializando o DataTable
-        let table = new DataTable('.grid_datatable');
+        $(document).ready(function () {
+            $('.grid_datatable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json'
+                }
+            });
+        })
 
         document.addEventListener("DOMContentLoaded", function () {
             // Exibe a mensagem de sucesso por 3 segundos
