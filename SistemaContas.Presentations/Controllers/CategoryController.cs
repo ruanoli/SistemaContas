@@ -50,7 +50,7 @@ namespace SistemaContas.Presentations.Controllers
                     TempData["MessageSuccess"] = "Categoria cadastrada com sucesso";
                     ModelState.Clear();
 
-                    return RedirectToAction("Index", "Dashboard");
+                    return RedirectToAction("Query");
 
                 }
                 catch (Exception ex)
@@ -128,9 +128,9 @@ namespace SistemaContas.Presentations.Controllers
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                TempData["MessageError"] = $"Erro ao Excluir categoria: {e}";
+                TempData["MessageError"] = $"Erro ao Excluir categoria: {ex}";
 
             }
 
@@ -138,30 +138,73 @@ namespace SistemaContas.Presentations.Controllers
             return RedirectToAction("Query");
         }
 
+        /// <summary>
+        /// Método de edição. Responsável por carregar o formulário com os campos preenchidos.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult Edit(Guid id)
         {
+            var model = new EditCategoryModel();
+
             try
             {
                 var userModel = JsonConvert.DeserializeObject<UserModel>(User.Identity?.Name);
                 var categoryRepository = new CategoryRepository();
-                var getById = categoryRepository.GetById(id);
+                var category = categoryRepository.GetById(id);
 
-                if (getById != null && userModel.IdUser == getById.IdUser)
+                if (category != null && userModel.IdUser == category.IdUser)
                 {
-                    categoryRepository.Update(getById);
+                    model.IdCategory = category.IdCategory;
+                    model.Name = category.Name;
                 }
                 else
                 {
-                    TempData["MessageAlert"] = "Algo deu errado! É provável que a categoria informada não exista no nosso banco. Verifique!";
+                    //TempData["MessageAlert"] = "Algo deu errado! É provável que a categoria informada não exista no nosso banco. Verifique!";
+                    
+                    return RedirectToAction("Query");
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                TempData["MessageError"] = $"Erro ao Editar categoria: {ex}";
+                TempData["MessageError"] = $"Erro ao obter categoria: {ex}";
             }
 
-            return View("Register");
+            return View(model);
+        }
+
+        /// <summary>
+        /// Método de edição. Responsável por alterar os dados da categoria.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult Edit(EditCategoryModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    var category = new Category();
+                    category.Name = model.Name;
+                    category.IdCategory = model.IdCategory;
+
+                    var categoryRepository = new CategoryRepository();
+                    categoryRepository.Update(category);
+
+                    TempData["MessageSuccess"] = "Categoria alterada com sucesso";
+
+                    return RedirectToAction("Query");
+                }
+                catch (Exception ex)
+                {
+                    TempData["MessageError"] = $"Erro ao alterar categoria: {ex}";
+
+                }
+            }
+
+            return View(model);
         }
     }
 }

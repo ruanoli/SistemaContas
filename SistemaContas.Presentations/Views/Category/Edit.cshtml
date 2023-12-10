@@ -1,15 +1,17 @@
-﻿@model SistemaContas.Presentations.Models.CategoryRegisterModel
+﻿@model SistemaContas.Presentations.Models.EditCategoryModel
 
 @{
-    ViewData["Title"] = "Cadastro Categoria";
-
+    ViewData["Title"] = "Edição da Categoria";
     Layout = "~/Views/Shared/MainLayout.cshtml";
 }
 
+
 @using (Html.BeginForm())
 {
-    <div class="text-center">
-        <h3>Cadastro de Categoria</h3>
+    @Html.HiddenFor(x => x.IdCategory)
+
+    <div class="text-center mb-2">
+        <h3>Edição de Categoria</h3>
     </div>
 
     <div class="mb-2">
@@ -22,7 +24,6 @@
                 </span>
             </div>
         </div>
-
     </div>
 
     <div class="mb-2 row">
@@ -32,7 +33,7 @@
                     <input type="submit" value="Salvar" class="btn btn-dark" />
                 </div>
                 <div class="col-md-6 text-end">
-                    <a href="/Dashboard/Index" class="btn btn-danger text-decoration-none">Cancelar</a>
+                    <a href="/Category/Query" class="btn btn-danger text-decoration-none">Cancelar</a>
                 </div>
             </div>
         </div>

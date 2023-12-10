@@ -6,14 +6,14 @@
     Layout = "~/Views/Shared/MainLayout.cshtml";
 }
 
-@if(Model.Count > 0)
+@if (Model.Count > 0)
 {
-    <div class="table-responsive" style="background-color:lightyellow">
+    <div class="table-responsive mb-3" style="background-color:lightyellow">
         <table class="table table-hover grid_datatable">
             <thead class="table-dark">
                 <tr>
                     <th>
-                        Categorias Cadastradas
+                        <h4>Categorias Cadastradas</h4>
                     </th>
                     <th>
                     </th>
@@ -41,9 +41,31 @@
                 }
             </tbody>
         </table>
+
     </div>
+
+    <div class="mb-2 row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-lg-6 text-lg-start text-black">
+                    <a href="/Category/Register" type="button" class="btn btn-dark">
+                        <i class="bi bi-plus-circle-fill"></i> Adicionar
+                    </a>
+                </div>
+                <div class="col-lg-6 text-lg-end text-black">
+                    <a href="/Dashboard/Index" type="button" class="btn btn-danger">
+                        Cancelar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 }
 else
 {
-    <h3 class="text-center">Você ainda não possui categorias cadastradas.</h3>
+    <div class="text-center">
+        <h3>Você ainda não possui categorias cadastradas.</h3>
+
+    </div>
 }
