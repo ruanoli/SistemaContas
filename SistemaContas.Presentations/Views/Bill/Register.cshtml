@@ -50,6 +50,14 @@
                 @Html.RadioButtonFor(x => x.Type, 2) <span>Conta a Pagar</span>
             </div>
         </div>
+
+        <div class="col-md-6">
+            <label><strong>Selecione a Categoria</strong></label>
+            @Html.DropDownListFor(x => x.IdCategory, Model.CategoryItems, "Selecione", new {@class="form-select"})
+        </div>
+        <span class="text-danger">
+            @Html.ValidationMessageFor(x => x.IdCategory)
+        </span>
     </div>
 
     <div class="mb-2 row">
