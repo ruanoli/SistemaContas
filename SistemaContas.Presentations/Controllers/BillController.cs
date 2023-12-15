@@ -19,34 +19,24 @@ namespace SistemaContas.Presentations.Controllers
             var billModel = new BillRegisterModel();
 
             //inicializando a lista (separando um espaço na memória para armazenar as opções)
-            billModel.CategoryItems = new List<SelectListItem>();
+            billModel.CategoryItems = GetCategoryList();
 
-            try
-            {
-                var user = JsonConvert.DeserializeObject<UserModel>(User.Identity.Name);
-                var category = new CategoryRepository();
-                var categoryList = category.GetAllByUser(user.IdUser);
-
-                //indo ao banco percorrer as categorias já cadastradas e armazer o id e o nome na
-                //propriedade CategoryItems que é uma List<SelectListItem>, e por isso precisa de Value
-                // que é o id e Text que é o nome da categoria.
-                foreach (var item in categoryList)
-                {
-                    var selectListItems = new SelectListItem();
-                    selectListItems.Value = item.IdCategory.ToString();
-                    selectListItems.Text = item.Name;
-
-                    
-                    billModel.CategoryItems.Add(selectListItems);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                TempData["MessageError"] = "Não foi possível obter as categorias" + ex.Message;
-            }
+           
 
             return View(billModel);
+        }
+
+        [HttpPost]
+        public IActionResult Register(BillRegisterModel model)
+        {
+            if(ModelState.IsValid)
+            {
+
+            }
+
+            model.CategoryItems = GetCategoryList();
+
+            return View();
         }
 
         /// <summary>
@@ -65,6 +55,46 @@ namespace SistemaContas.Presentations.Controllers
         public IActionResult Edit()
         {
             return View();
+        }
+
+        /// <summary>
+        /// Foio necessário colocar a lógica de carregamento da lista separadamente, porque ele será usado no carregamento
+        /// da página quando o formulário for aberto e também quando o submit for dado, ele irá retornar pra page. Para n
+        /// dá NullReference é necessário carregá-lo.
+        /// </summary>
+        /// <returns></returns>
+        private List<SelectListItem> GetCategoryList()
+        {
+            var categoyItems = new List<SelectListItem>();
+
+            try
+            {
+                var user = JsonConvert.DeserializeObject<UserModel>(User.Identity.Name);
+                var category = new CategoryRepository();
+                var categoryList = category.GetAllByUser(user.IdUser);
+
+                //indo ao banco percorrer as categorias já cadastradas e armazer o id e o nome na
+                //propriedade CategoryItems que é uma List<SelectListItem>, e por isso precisa de Value
+                // que é o id e Text que é o nome da categoria.
+                foreach (var item in categoryList)
+                {
+                    var selectListItems = new SelectListItem();
+                    selectListItems.Value = item.IdCategory.ToString();
+                    selectListItems.Text = item.Name;
+
+
+                    categoyItems.Add(selectListItems);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                TempData["MessageError"] = "Não foi possível obter as categorias" + ex.Message;
+            }
+
+            return categoyItems;
+
         }
     }
 }
