@@ -15,8 +15,8 @@ namespace SistemaContas.Data.Repositories
     {
         public void Insert(Bill bill)
         {
-            var query = @"INSERT INTO CATEGORY(IDBILL, NAME, DATE, VALUE, TYPE, OBSERVATION, IDCATEGORY, IDUSER)
-                        VALUES(@IIdBill, @Name, @DataBill, @ValueBill, @TypeBill, @Comments, @IdCategory, @IdUser)";
+            var query = @"INSERT INTO BILL(IDBILL, NAME, DATE, VALUE, TYPE, OBSERVATION, IDCATEGORY, IDUSER)
+                        VALUES(@IdBill, @Name, @DataBill, @ValueBill, @TypeBill, @Comments, @IdCategory, @IdUser)";
 
             using (var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
             {
@@ -31,6 +31,16 @@ namespace SistemaContas.Data.Repositories
                         VALUE = @ValueBill, TYPE = @TypeBill, OBSERVATION = @Comments, 
                         IDCATEGORY = @IdCategory, IDUSER = @IdUser
                         WHERE IDBILL = @IdBill";
+
+            using (var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
+            {
+                connection.Execute(query, bill);
+            }
+        }
+
+        public void Delete(Bill bill)
+        {
+            var query = @"DELETE FROM BILL WHERE IDBILL = @IdBill";
 
             using (var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
             {

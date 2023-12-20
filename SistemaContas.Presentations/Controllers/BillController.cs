@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using SistemaContas.Data.Entities;
 using SistemaContas.Data.Repositories;
 using SistemaContas.Presentations.Models;
 
@@ -31,12 +32,45 @@ namespace SistemaContas.Presentations.Controllers
         {
             if(ModelState.IsValid)
             {
+                try
+                {
+                    var userLogado = JsonConvert.DeserializeObject<UserModel>(User.Identity.Name);
+                    var bill = new Bill();
 
+                    bill.IdBill = Guid.NewGuid();
+                    bill.ValueBill = model.ValueBill;
+                    bill.DataBill = model.DateBill.Value;
+                    bill.IdUser = userLogado.IdUser;
+                    bill.Comments = model.Comments;
+                    bill.IdCategory = model.IdCategory;
+                    bill.TypeBill = model.Type;
+                    bill.Name = model.Name;
+
+                    var billRepository = new BillRepository();
+
+                    billRepository.Insert(bill);
+
+
+                    TempData["MessageSuccess"] = "Conta cadastrada com sucesso";
+
+                    ModelState.Clear();
+                    return RedirectToAction("Index", "Dashboard");
+
+                }
+                catch (Exception ex)
+                {
+                    TempData["MessageError"] = $"Erro ao cadastrar conta. {ex.Message}";
+                }
+            }
+            else
+            {
+                TempData["MessageAlert"] = "Algo deu errado! Certifique-se que o preenchimento do formulário está correto";
+                
             }
 
             model.CategoryItems = GetCategoryList();
 
-            return View();
+            return View(model);
         }
 
         /// <summary>
