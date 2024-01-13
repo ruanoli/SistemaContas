@@ -12,7 +12,7 @@
     <div class="row mb-2">
         <div class="col-md-6 mb-2 d-flex align-items-center justify-content-center">
             <label><strong>Data Início:</strong></label>
-            @Html.TextBoxFor(x => x.StartDate, new {@class="form-control", @type="date", placeholder="Insira a data de início"})
+            @Html.TextBoxFor(x => x.StartDate, new {@class="form-control", @type="date"})
             <span class="text-danger">
                 @Html.ValidationMessageFor(x=> x.StartDate)
             </span>
@@ -21,13 +21,13 @@
         <div class="col-md-6 d-flex align-items-center justify-content-center mb-2">
             <label><strong>Data Fim:</strong></label>
 
-            @Html.TextBoxFor(x => x.EndDate, new {@class="form-control", @type="date", placeholder="Insira a data de fim"})
+            @Html.TextBoxFor(x => x.EndDate, new {@class="form-control", @type="date"})
             <span class="text-danger">
                 @Html.ValidationMessageFor(x=> x.EndDate)
             </span>
         </div>
     </div>
-    <div class="mb-2 row">
+    <div class="mb-4 row">
         <div class="col-md-12">
             <div class="row">
                 <div class="col-lg-6 text-lg-start text-black">
@@ -36,12 +36,46 @@
                     </a>
                 </div>
                 <div class="col-lg-6 text-lg-end text-black">
-                    <a href="/Bill/Query" type="button" class="btn btn-dark">
-                        Pesquisar
-                    </a>
+                    <input type="submit" class="btn btn-dark" value="Pesquisar Contas"/>
                 </div>
             </div>
         </div>
     </div>
-
 }
+<div class="table-responsive mb-3" style="background-color:lightyellow">
+    <table class="table table-hover grid_datatable">
+        <thead class="table-dark">
+            <tr>
+                <th>Nome da Conta</th>
+                <th>Data</th>
+                <th>Valor</th>
+                <th>Tipo</th>
+                <th>Categoria</th>
+                <th>Observações</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <a href="/Bill/Edit" class="btn btn-outline-warning btn-sm">
+                            Editar
+                        </a>
+                        <a href="/Bill/Delete" class="btn btn-outline-danger btn-sm" 
+                            onclick="return Confirm('Tem certeza que deseja excluir esta conta?')">
+                            Excluir
+                        </a>
+                    </td>
+                </tr>
+            
+        </tbody>
+    </table>
+
+</div>

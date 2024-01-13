@@ -1,4 +1,79 @@
-﻿@{
+﻿@model SistemaContas.Presentations.Models.BillEditModel
+
+@{
     ViewData["Title"] = "Edição de Contas";
     Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<h3>Edição de contas</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(x => x.IdBill)
+
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <label><strong>Nome da Conta</strong></label>
+            @Html.TextBoxFor(x => x.Name, new {@class="form-control"})
+            <span class="text-danger">
+                @Html.ValidationMessageFor(x => x.Name)
+            </span>
+        </div>
+
+        <div class="col-md-3">
+            <label><strong>Data da Conta</strong></label>
+            @Html.TextBoxFor(x => x.DateBill, new { @class="form-control", @type="date" })
+            <span class="text-danger">
+                @Html.ValidationMessageFor(x => x.DateBill)
+            </span>
+        </div>
+
+        <div class="col-md-3">
+            <label><strong>Valor da Conta</strong></label>
+            @Html.TextBoxFor(x => x.ValueBill, new { @class="money form-control"})
+            <span class="text-danger">
+                @Html.ValidationMessageFor(x => x.ValueBill)
+            </span>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-12">
+            <label><strong>Observações</strong></label>
+            @Html.TextAreaFor(x => x.Comments, new {@class="form-control"})
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <label><strong>Tipo da Conta</strong></label>
+            <div class="mb-2">
+                @Html.RadioButtonFor(x => x.Type, 1) <span>Conta a Receber</span>
+                @Html.RadioButtonFor(x => x.Type, 2) <span>Conta a Pagar</span>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label><strong>Selecione a Categoria</strong></label>
+            @Html.DropDownListFor(x => x.IdCategory, Model.CategoryItems, "Selecione", new {@class="form-select"})
+        </div>
+        <span class="text-danger">
+            @Html.ValidationMessageFor(x => x.IdCategory)
+        </span>
+    </div>
+
+    <div class="mb-2 row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="/Dashboard/Index" class="btn btn-danger text-decoration-none">Cancelar</a>
+
+                </div>
+                <div class="col-md-6 text-end">
+                    <input type="submit" value="Salvar" class="btn btn-dark" />
+
+                </div>
+            </div>
+        </div>
+    </div>
 }

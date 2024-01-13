@@ -22,7 +22,7 @@ namespace SistemaContas.Presentations.Controllers
             //inicializando a lista (separando um espaço na memória para armazenar as opções)
             billModel.CategoryItems = GetCategoryList();
 
-           
+
 
             return View(billModel);
         }
@@ -30,7 +30,7 @@ namespace SistemaContas.Presentations.Controllers
         [HttpPost]
         public IActionResult Register(BillRegisterModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -64,11 +64,11 @@ namespace SistemaContas.Presentations.Controllers
             }
             else
             {
-                TempData["MessageAlert"] = "Algo deu errado! Certifique-se que o preenchimento do formulário está correto";
-                
+                MessageAlert();
+
             }
 
-            model.CategoryItems = GetCategoryList();
+            //model.CategoryItems = GetCategoryList();
 
             return View(model);
         }
@@ -79,6 +79,40 @@ namespace SistemaContas.Presentations.Controllers
         /// <returns></returns>
         public IActionResult Query()
         {
+            var bill = new BillQueryModel();
+            bill.StartDate = DateTime.Now;
+            bill.EndDate = DateTime.Now;
+            return View(bill);
+        }
+
+        [HttpPost]
+        public IActionResult Query(BillQueryModel billModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var billRepository = new BillRepository();
+                    var user = JsonConvert.DeserializeObject<UserModel>(User.Identity.Name);
+
+                    billModel.Bills = billRepository.GetBillAll(billModel.StartDate.Value, 
+                                                                billModel.EndDate.Value, 
+                                                                user.IdUser);
+
+                    return View(billModel);
+                }
+                catch (Exception ex)
+                {
+                    TempData["MessageError"] = $"Erro ao consultar contas. {ex.Message}";
+                }
+
+
+            }
+            else
+            {
+                MessageAlert();
+            }
+
             return View();
         }
 
@@ -88,11 +122,55 @@ namespace SistemaContas.Presentations.Controllers
         /// <returns></returns>
         public IActionResult Edit()
         {
-            return View();
+            var bill = new BillEditModel();
+            bill.CategoryItems = GetCategoryList();
+
+            return View(bill);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(BillEditModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var billRepo = new BillRepository();
+                    var billModel = new Bill();
+
+                    var isExist = billRepo.GetBillById(model.IdBill);
+
+                    if (isExist != null)
+                    {
+                        billModel.ValueBill = model.ValueBill;
+                        billModel.DataBill = model.DateBill;
+                        billModel.TypeBill = model.Type;
+                        billModel.Comments = model.Comments;
+                        billModel.Name = model.Name;
+                        billModel.IdCategory = model.IdCategory;
+
+                        billRepo.Update(billModel);
+
+                        return RedirectToAction("Query");
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                    TempData["MessageError"] = "Não foi possível editar as contas" + ex.Message;
+                }
+            }
+            else
+            {
+                MessageAlert();
+
+            }
+            return View(model);
         }
 
         /// <summary>
-        /// Foio necessário colocar a lógica de carregamento da lista separadamente, porque ele será usado no carregamento
+        /// Foio necessário colocar a lógica de carregamento da lista separadamente, porque ela será usado no carregamento
         /// da página quando o formulário for aberto e também quando o submit for dado, ele irá retornar pra page. Para n
         /// dá NullReference é necessário carregá-lo.
         /// </summary>
@@ -128,6 +206,12 @@ namespace SistemaContas.Presentations.Controllers
             }
 
             return categoyItems;
+
+        }
+
+        public object MessageAlert()
+        {
+            return TempData["MessageAlert"] = "Algo deu errado! Certifique-se que o preenchimento do formulário está correto";
 
         }
     }
