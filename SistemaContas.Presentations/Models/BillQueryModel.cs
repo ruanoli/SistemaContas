@@ -12,7 +12,7 @@ namespace SistemaContas.Presentations.Models
         public DateTime? EndDate { get; set; }
 
         /// <summary>
-        /// Irá retornar a listagem das contas após a consulta.
+        /// Irá retornar a listagem das contas após a realização da cconsulta.
         /// </summary>
         public IList<Bill>? Bills { get; set; }
     }

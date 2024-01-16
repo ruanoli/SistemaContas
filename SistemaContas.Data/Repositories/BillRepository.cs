@@ -56,7 +56,7 @@ namespace SistemaContas.Data.Repositories
             var query = @"SELECT * FROM BILL AS conta
                         INNER JOIN CATEGORY AS cate 
                         ON conta.IDCATEGORY = cate.IDCATEGORY
-                        WHERE IDBILL = @id";
+                        WHERE conta.IDBILL = @id";
 
             using (var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
             {
@@ -77,7 +77,7 @@ namespace SistemaContas.Data.Repositories
             var query = @"SELECT * FROM BILL AS a
                         INNER JOIN CATEGORY AS b
                         ON a.IDCATEGORY = b.IDCATEGORY
-                        WHERE DATE BETWEEN @startDate AND @endDate AND IDUSER = @idUser
+                        WHERE DATE BETWEEN @startDate AND @endDate AND a.IDUSER = @idUser
                         ORDER BY DATE DESC";
 
             //Exemplo de join com dapper.
