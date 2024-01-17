@@ -72,28 +72,33 @@ namespace SistemaContas.Data.Repositories
             }
         }
 
-        public IList<Bill> GetBillAll(DateTime? startDate, DateTime? endDate, Guid idUser)
+        public IList<Bill> GetBillAll(DateTime startDate, DateTime endDate, Guid idUser)
         {
-            var query = @"SELECT * FROM BILL AS a
-                        INNER JOIN CATEGORY AS b
-                        ON a.IDCATEGORY = b.IDCATEGORY
-                        WHERE DATE BETWEEN @startDate AND @endDate AND a.IDUSER = @idUser
-                        ORDER BY DATE DESC";
+            var query = @"SELECT * FROM BILL
+                INNER JOIN CATEGORY 
+                ON BILL.IDCATEGORY = CATEGORY.IDCATEGORY
+                WHERE DATE BETWEEN @startDate AND @endDate AND BILL.IDUSER = @idUser
+                ORDER BY DATE DESC";
 
-            //Exemplo de join com dapper.
+            // Exemplo de join com Dapper.
             using (var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
             {
-                return connection.Query(query,
-                    (Bill bill, Category category) =>
+                var result = connection.Query<Bill, Category, Bill>(
+                    query,
+                    (bill, category) =>
                     {
                         bill.Category = category;
                         return bill;
                     },
-                    new {startDate, endDate, idUser},
-                    splitOn: "IdCategory")
+                    new { startDate, endDate, idUser },
+                    splitOn: "IDCATEGORY")
                     .ToList();
+
+                return result;
             }
         }
+
+
 
     }
 }

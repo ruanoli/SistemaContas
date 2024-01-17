@@ -38,12 +38,12 @@ namespace SistemaContas.Presentations.Controllers
                     var bill = new Bill();
 
                     bill.IdBill = Guid.NewGuid();
-                    bill.ValueBill = model.ValueBill;
-                    bill.DataBill = model.DateBill.Value;
+                    bill.Value = model.ValueBill;
+                    bill.Date = model.DateBill.Value;
                     bill.IdUser = userLogado.IdUser;
-                    bill.Comments = model.Comments;
+                    bill.Observation = model.Comments;
                     bill.IdCategory = model.IdCategory;
-                    bill.TypeBill = model.Type;
+                    bill.Type = model.Type;
                     bill.Name = model.Name;
 
                     var billRepository = new BillRepository();
@@ -95,9 +95,18 @@ namespace SistemaContas.Presentations.Controllers
                     var billRepository = new BillRepository();
                     var user = JsonConvert.DeserializeObject<UserModel>(User.Identity.Name);
 
-                    billModel.Bills = billRepository.GetBillAll(billModel.StartDate.Value, 
-                                                                billModel.EndDate.Value, 
+                    if(!billModel.StartDate.HasValue && !billModel.EndDate.HasValue)
+                    {
+                        billModel.Bills = billRepository.GetBillAll(DateTime.Now.Date,
+                                                                DateTime.Now.Date,
                                                                 user.IdUser);
+                    }
+                    else
+                    {
+                        billModel.Bills = billRepository.GetBillAll(billModel.StartDate.Value,
+                                                                billModel.EndDate.Value,
+                                                                user.IdUser);
+                    }
 
                     return View(billModel);
                 }
@@ -142,10 +151,10 @@ namespace SistemaContas.Presentations.Controllers
 
                     if (isExist != null)
                     {
-                        billModel.ValueBill = model.ValueBill;
-                        billModel.DataBill = model.DateBill;
-                        billModel.TypeBill = model.Type;
-                        billModel.Comments = model.Comments;
+                        billModel.Value = model.ValueBill;
+                        billModel.Date = model.DateBill;
+                        billModel.Type = model.Type;
+                        billModel.Observation = model.Comments;
                         billModel.Name = model.Name;
                         billModel.IdCategory = model.IdCategory;
 

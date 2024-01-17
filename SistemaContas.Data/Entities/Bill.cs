@@ -11,10 +11,10 @@ namespace SistemaContas.Data.Entities
     {
         public Guid IdBill { get; set; }
         public string? Name { get; set; }
-        public DateTime? DataBill { get; set; }
-        public decimal? ValueBill { get; set; }
-        public int TypeBill { get; set; }
-        public string? Comments { get; set; }
+        public DateTime? Date { get; set; }
+        public decimal? Value { get; set; }
+        public int Type { get; set; }
+        public string? Observation { get; set; }
         public Guid IdCategory { get; set; }
         public Guid IdUser { get; set; }
 

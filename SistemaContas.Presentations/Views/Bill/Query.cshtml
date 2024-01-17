@@ -56,20 +56,18 @@
                         <th>Valor</th>
                         <th>Tipo</th>
                         <th>Categoria</th>
-                        <th>Observações</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @*@foreach (var item in Model.Bills)
-            {*@
+                    @foreach (var item in Model.Bills)
+                    {
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>@item.Name</td>
+                            <td>@(item.Date.HasValue ? item.Date.Value.ToString("dd/MM/yyyy") : "")</td>
+                            <td>@(item.Value.HasValue ? item.Value.Value.ToString("c") : "")</td>
+                            <td>@(item.Type == 1 ? "A pagar" : "A Receber")</td>
+                            <td>@item.Category.Name</td>
                             <td>
                                 <a href="/Bill/Edit" class="btn btn-outline-warning btn-sm">
                                     Editar
@@ -80,7 +78,7 @@
                                 </a>
                             </td>
                         </tr>
-                    @*}*@
+                    }
 
                 </tbody>
             </table>
