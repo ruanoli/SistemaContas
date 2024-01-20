@@ -16,7 +16,7 @@ namespace SistemaContas.Data.Repositories
         public void Insert(Bill bill)
         {
             var query = @"INSERT INTO BILL(IDBILL, NAME, DATE, VALUE, TYPE, OBSERVATION, IDCATEGORY, IDUSER)
-                        VALUES(@IdBill, @Name, @DataBill, @ValueBill, @TypeBill, @Comments, @IdCategory, @IdUser)";
+                        VALUES(@IdBill, @Name, @Date, @Value, @Type, @Observation, @IdCategory, @IdUser)";
 
             using (var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
             {
@@ -27,8 +27,8 @@ namespace SistemaContas.Data.Repositories
         public void Update(Bill bill)
         {
             var query = @"UPDATE BILL 
-                        SET IDBILL = @IIdBill, NAME = @Name, DATE = @DataBill, 
-                        VALUE = @ValueBill, TYPE = @TypeBill, OBSERVATION = @Comments, 
+                        SET IDBILL = @IdBill, NAME = @Name, DATE = @Date, 
+                        VALUE = @Value, TYPE = @Type, OBSERVATION = @Observation, 
                         IDCATEGORY = @IdCategory, IDUSER = @IdUser
                         WHERE IDBILL = @IdBill";
 

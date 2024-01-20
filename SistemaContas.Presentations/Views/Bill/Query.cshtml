@@ -52,10 +52,10 @@
                 <thead class="table-dark">
                     <tr>
                         <th>Nome da Conta</th>
-                        <th>Data</th>
-                        <th>Valor</th>
-                        <th>Tipo</th>
-                        <th>Categoria</th>
+                        <th>Data da Conta</th>
+                        <th>Valor da Conta</th>
+                        <th>Tipo de Conta</th>
+                        <th>Categoria da Conta</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -66,7 +66,15 @@
                             <td>@item.Name</td>
                             <td>@(item.Date.HasValue ? item.Date.Value.ToString("dd/MM/yyyy") : "")</td>
                             <td>@(item.Value.HasValue ? item.Value.Value.ToString("c") : "")</td>
-                            <td>@(item.Type == 1 ? "A pagar" : "A Receber")</td>
+                            <td>@if (item.Type == 1)
+                                {
+                                    <span class="badge bg-info">RECEBER</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">PAGAR</span>
+                                }
+                            </td>
                             <td>@item.Category.Name</td>
                             <td>
                                 <a href="/Bill/Edit" class="btn btn-outline-warning btn-sm">

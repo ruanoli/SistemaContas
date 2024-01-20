@@ -74,15 +74,39 @@ namespace SistemaContas.Presentations.Controllers
         }
 
         /// <summary>
-        /// Consultar contas cadastradas
+        /// Consultar contas cadastradas, carrega as contas do mês atual.
         /// </summary>
         /// <returns></returns>
         public IActionResult Query()
         {
             var bill = new BillQueryModel();
-            bill.StartDate = DateTime.Now;
-            bill.EndDate = DateTime.Now;
+
+            try
+            {
+                var userLogado = JsonConvert.DeserializeObject<UserModel>(User.Identity.Name);
+
+
+                var currentDate = DateTime.Now;
+
+                //Carrega a página com a data inicial, com o ano atual, mês e dia 1.
+                bill.StartDate = new DateTime(currentDate.Year, currentDate.Month, 1);
+
+                //a data fim será o último dia do mês atual.
+                bill.EndDate = bill.StartDate.Value.AddMonths(1).AddDays(-1);
+
+                var billRepository = new BillRepository();
+                bill.Bills = billRepository.GetBillAll(bill.StartDate.Value.Date, bill.EndDate.Value.Date, userLogado.IdUser);
+
+            }
+            catch (Exception ex)
+            {
+                TempData["MessageError"] = $"Erro ao carregar contas. {ex.Message}";
+
+            }
+
             return View(bill);
+
+
         }
 
         [HttpPost]
@@ -95,18 +119,11 @@ namespace SistemaContas.Presentations.Controllers
                     var billRepository = new BillRepository();
                     var user = JsonConvert.DeserializeObject<UserModel>(User.Identity.Name);
 
-                    if(!billModel.StartDate.HasValue && !billModel.EndDate.HasValue)
-                    {
-                        billModel.Bills = billRepository.GetBillAll(DateTime.Now.Date,
-                                                                DateTime.Now.Date,
-                                                                user.IdUser);
-                    }
-                    else
-                    {
-                        billModel.Bills = billRepository.GetBillAll(billModel.StartDate.Value,
-                                                                billModel.EndDate.Value,
-                                                                user.IdUser);
-                    }
+
+                    billModel.Bills = billRepository.GetBillAll(billModel.StartDate.Value,
+                                                            billModel.EndDate.Value,
+                                                            user.IdUser);
+
 
                     return View(billModel);
                 }
