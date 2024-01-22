@@ -195,6 +195,31 @@ namespace SistemaContas.Presentations.Controllers
             return View(model);
         }
 
+        public IActionResult Delete(Guid id)
+        {
+            try
+            {
+                var billRepository = new BillRepository();
+                var bill = billRepository.GetBillById(id);
+                var user = JsonConvert.DeserializeObject<UserModel>(User.Identity.Name);
+
+                if (bill != null && user.IdUser == bill.IdUser)
+                {
+                    billRepository.Delete(bill);
+
+                    TempData["MessageSuccess"] = "Conta excluída com sucesso";
+
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["MessageError"] = "Não foi possível editar as contas" + ex.Message;
+
+            }
+
+            return RedirectToAction("Query");
+        }
+
         /// <summary>
         /// Foio necessário colocar a lógica de carregamento da lista separadamente, porque ela será usado no carregamento
         /// da página quando o formulário for aberto e também quando o submit for dado, ele irá retornar pra page. Para n
@@ -234,6 +259,8 @@ namespace SistemaContas.Presentations.Controllers
             return categoyItems;
 
         }
+
+       
 
         public object MessageAlert()
         {

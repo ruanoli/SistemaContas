@@ -9,10 +9,11 @@
 
 @using (Html.BeginForm())
 {
+
     <div class="row mb-2">
         <div class="col-md-6 mb-2 d-flex align-items-center justify-content-center">
             <label><strong>Data Início:</strong></label>
-            @Html.TextBoxFor(x => x.StartDate, new {@class="form-control", @type="date"})
+            @Html.TextBoxFor(x => x.StartDate, "{0:yyyy-MM-dd}",new {@class="form-control", @type="date"})
             <span class="text-danger">
                 @Html.ValidationMessageFor(x=> x.StartDate)
             </span>
@@ -21,7 +22,7 @@
         <div class="col-md-6 d-flex align-items-center justify-content-center mb-2">
             <label><strong>Data Fim:</strong></label>
 
-            @Html.TextBoxFor(x => x.EndDate, new {@class="form-control", @type="date"})
+            @Html.TextBoxFor(x => x.EndDate, "{0:yyyy-MM-dd}",new {@class="form-control", @type="date"})
             <span class="text-danger">
                 @Html.ValidationMessageFor(x=> x.EndDate)
             </span>
@@ -36,7 +37,7 @@
                     </a>
                 </div>
                 <div class="col-lg-6 text-lg-end text-black">
-                    <input type="submit" class="btn btn-dark" value="Pesquisar Contas" />
+                    <input type="submit" class="btn btn-dark" value="Pesquisar" />
                 </div>
             </div>
         </div>
@@ -45,6 +46,8 @@
 
 @if (Model != null && Model.Bills != null)
 {
+
+
     if (Model.Bills.Count > 0)
     {
         <div class="table-responsive mb-3" style="background-color:lightyellow">
@@ -77,11 +80,11 @@
                             </td>
                             <td>@item.Category.Name</td>
                             <td>
-                                <a href="/Bill/Edit" class="btn btn-outline-warning btn-sm">
+                                <a href="/Bill/Edit/@item.IdBill" class="btn btn-outline-warning btn-sm">
                                     Editar
                                 </a>
-                                <a href="/Bill/Delete" class="btn btn-outline-danger btn-sm"
-                                   onclick="return Confirm('Tem certeza que deseja excluir esta conta?')">
+                                <a href="/Bill/Delete/@item.IdBill" class="btn btn-outline-danger btn-sm"
+                                   onclick="return confirm('Tem certeza que deseja excluir esta conta?')">
                                     Excluir
                                 </a>
                             </td>
@@ -100,4 +103,8 @@
         </div>
     }
 }
+<script>
+    $(".teste")
+</script>
+
 
