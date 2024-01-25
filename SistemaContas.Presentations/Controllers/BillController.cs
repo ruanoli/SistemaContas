@@ -146,12 +146,44 @@ namespace SistemaContas.Presentations.Controllers
         /// Editar contas cadastradas
         /// </summary>
         /// <returns></returns>
-        public IActionResult Edit()
+        public IActionResult Edit(Guid id)
         {
-            var bill = new BillEditModel();
-            bill.CategoryItems = GetCategoryList();
+            var model = new BillEditModel();
 
-            return View(bill);
+            var billRepository = new BillRepository();
+           
+
+            try
+            {
+                var bill = billRepository.GetBillById(id);
+                var user = JsonConvert.DeserializeObject<UserModel>(User.Identity.Name);
+
+                if (bill != null && user.IdUser == bill.IdUser)
+                {
+                    model.DateBill = bill.Date;
+                    model.ValueBill = bill.Value.Value;
+                    model.IdBill = bill.IdBill;
+                    model.CategoryItems = GetCategoryList();
+                    model.IdCategory = bill.IdCategory;
+                    model.Comments = bill.Observation;
+                    model.CategoryItems = GetCategoryList();
+                    model.Name = bill.Name;
+                    model.Type = bill.Type;
+                }
+                else
+                {
+                    RedirectToAction("Query");
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                TempData["MessageError"] = "Não foi possível carregar as contas" + ex.Message;
+
+            }
+
+
+            return View(model);
         }
 
         [HttpPost]
@@ -221,7 +253,7 @@ namespace SistemaContas.Presentations.Controllers
         }
 
         /// <summary>
-        /// Foio necessário colocar a lógica de carregamento da lista separadamente, porque ela será usado no carregamento
+        /// Foi necessário colocar a lógica de carregamento da lista separadamente, porque ela será usado no carregamento
         /// da página quando o formulário for aberto e também quando o submit for dado, ele irá retornar pra page. Para n
         /// dá NullReference é necessário carregá-lo.
         /// </summary>
@@ -245,7 +277,6 @@ namespace SistemaContas.Presentations.Controllers
                     selectListItems.Value = item.IdCategory.ToString();
                     selectListItems.Text = item.Name;
 
-
                     categoyItems.Add(selectListItems);
                 }
 
@@ -260,7 +291,7 @@ namespace SistemaContas.Presentations.Controllers
 
         }
 
-       
+
 
         public object MessageAlert()
         {

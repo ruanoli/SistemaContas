@@ -22,7 +22,7 @@
 
         <div class="col-md-3">
             <label><strong>Data da Conta</strong></label>
-            @Html.TextBoxFor(x => x.DateBill, new { @class="form-control", @type="date" })
+            @Html.TextBoxFor(x => x.DateBill, "{0:yyyy-MM-dd}",new { @class="form-control", @type="date" })
             <span class="text-danger">
                 @Html.ValidationMessageFor(x => x.DateBill)
             </span>
@@ -66,7 +66,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-6">
-                    <a href="/Dashboard/Index" class="btn btn-danger text-decoration-none">Cancelar</a>
+                    <a href="/Bill/Query" class="btn btn-danger text-decoration-none">Cancelar</a>
 
                 </div>
                 <div class="col-md-6 text-end">
