@@ -68,5 +68,19 @@ namespace SistemaContas.Data.Repositories
                 return connection.Query<Category>(query, new {id}).FirstOrDefault();
             }
         }
+
+        /// <summary>
+        /// Retorna  quantidade de contas cadastradas que estejam vinculadas a categoria de id tal.
+        /// </summary>
+        /// <param name="idCategory"></param>
+        public int? GetQuantityBill(Guid idCategory)
+        {
+            var query = @"SELECT COUNT(*) FROM BILL WHERE IDCATEGORY = @idCategory";
+
+            using (var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
+            {
+                return connection.Query<int?>(query, new { idCategory }).Count();
+            }
+        }
     }
 }

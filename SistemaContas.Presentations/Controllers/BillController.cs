@@ -151,7 +151,7 @@ namespace SistemaContas.Presentations.Controllers
             var model = new BillEditModel();
 
             var billRepository = new BillRepository();
-           
+
 
             try
             {
@@ -174,7 +174,7 @@ namespace SistemaContas.Presentations.Controllers
                 {
                     RedirectToAction("Query");
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -191,26 +191,26 @@ namespace SistemaContas.Presentations.Controllers
         {
             if (ModelState.IsValid)
             {
+                var billRepo = new BillRepository();
+                var billModel = new Bill();
                 try
                 {
-                    var billRepo = new BillRepository();
-                    var billModel = new Bill();
+                    var user = JsonConvert.DeserializeObject<UserModel>(User.Identity.Name);
 
-                    var isExist = billRepo.GetBillById(model.IdBill);
+                    var billRepository = billRepo.GetBillById(model.IdBill);
 
-                    if (isExist != null)
-                    {
-                        billModel.Value = model.ValueBill;
-                        billModel.Date = model.DateBill;
-                        billModel.Type = model.Type;
-                        billModel.Observation = model.Comments;
-                        billModel.Name = model.Name;
-                        billModel.IdCategory = model.IdCategory;
+                    billModel.IdBill = model.IdBill;
+                    billModel.Value = model.ValueBill;
+                    billModel.Date = model.DateBill;
+                    billModel.Type = model.Type;
+                    billModel.Observation = model.Comments;
+                    billModel.Name = model.Name;
+                    billModel.IdCategory = model.IdCategory;
 
-                        billRepo.Update(billModel);
+                    billRepo.Update(billModel);
 
-                        return RedirectToAction("Query");
-                    }
+                    return RedirectToAction("Query");
+
 
                 }
                 catch (Exception ex)
@@ -219,11 +219,8 @@ namespace SistemaContas.Presentations.Controllers
                     TempData["MessageError"] = "Não foi possível editar as contas" + ex.Message;
                 }
             }
-            else
-            {
-                MessageAlert();
 
-            }
+            model.CategoryItems = GetCategoryList();
             return View(model);
         }
 

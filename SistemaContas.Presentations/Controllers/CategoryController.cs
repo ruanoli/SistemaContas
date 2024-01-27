@@ -111,19 +111,20 @@ namespace SistemaContas.Presentations.Controllers
             try
             {
                 var categoryRepository = new CategoryRepository();
-                var getId = categoryRepository.GetById(id);
+                var category = categoryRepository.GetById(id);
                 var userModel = JsonConvert.DeserializeObject<UserModel>(User.Identity?.Name);
-                //verifica no banco se existe a categoria e se o usuário logado é o mesmo usuário da categoria. 
-                if (getId != null && getId.IdUser == userModel.IdUser)
+                var getBill = categoryRepository.GetQuantityBill(id);
+
+                if (category != null && category.IdUser == userModel.IdUser && getBill == 0)
                 {
-                    categoryRepository.Delete(getId);
+                    categoryRepository.Delete(category);
 
                     TempData["MessageSuccess"] = "Categoria deletada com sucesso";
 
                 }
                 else
                 {
-                    TempData["MessageAlert"] = "Algo deu errado! É provável que a categoria informada não exista no nosso banco. Verifique!";
+                    TempData["MessageAlert"] = "Algo deu errado! Verifique se a categoria está vinculada a uma conta.";
 
                 }
 
