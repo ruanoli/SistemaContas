@@ -79,7 +79,7 @@ namespace SistemaContas.Data.Repositories
 
             using (var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
             {
-                return connection.Query<int?>(query, new { idCategory }).Count();
+                return connection.Query<int>(query, new { idCategory }).FirstOrDefault();
             }
         }
     }

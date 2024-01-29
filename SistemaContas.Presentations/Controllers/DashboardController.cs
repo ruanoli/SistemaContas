@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SistemaContas.Data.Repositories;
 
 namespace SistemaContas.Presentations.Controllers
 {
@@ -8,6 +9,8 @@ namespace SistemaContas.Presentations.Controllers
     {
         public IActionResult Index()
         {
+            var bill = new BillRepository();
+
             return View();
         }
     }

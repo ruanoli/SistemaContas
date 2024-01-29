@@ -98,7 +98,7 @@ namespace SistemaContas.Presentations.Controllers
                 }
             }
             catch (Exception ex)
-            {
+            { 
                 TempData["MessageError"] = $"Erro ao cadastrar categoria: {ex}";
             }
 
@@ -113,9 +113,9 @@ namespace SistemaContas.Presentations.Controllers
                 var categoryRepository = new CategoryRepository();
                 var category = categoryRepository.GetById(id);
                 var userModel = JsonConvert.DeserializeObject<UserModel>(User.Identity?.Name);
-                var getBill = categoryRepository.GetQuantityBill(id);
+                var getQuantBill = categoryRepository.GetQuantityBill(id);
 
-                if (category != null && category.IdUser == userModel.IdUser && getBill == 0)
+                if (category != null && category.IdUser == userModel.IdUser && getQuantBill == 0)
                 {
                     categoryRepository.Delete(category);
 
@@ -124,7 +124,7 @@ namespace SistemaContas.Presentations.Controllers
                 }
                 else
                 {
-                    TempData["MessageAlert"] = "Algo deu errado! Verifique se a categoria está vinculada a uma conta.";
+                    TempData["MessageAlert"] = $"Algo deu errado! Verifique se a categoria está vinculada a alguma conta. Existe {getQuantBill} conta(s) vinculada(s).";
 
                 }
 
