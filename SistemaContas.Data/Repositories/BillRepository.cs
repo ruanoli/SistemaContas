@@ -100,5 +100,28 @@ namespace SistemaContas.Data.Repositories
 
 
 
+
+        public decimal? GetSumBillAllToReceive(Guid idUser)
+        {
+            var query = @"SELECT SUM(VALUE) FROM BILL WHERE IDUSER = @idUser AND TYPE = 1";
+
+            using (var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
+            {
+                return connection.Query<decimal?>(query, new { idUser }).FirstOrDefault();
+            }
+        }
+
+        public decimal? GetSumBillAllPay(Guid idUser)
+        {
+            var query = @"SELECT SUM(VALUE) FROM BILL WHERE IDUSER = @idUser AND TYPE = 2";
+
+            using (var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
+            {
+                return connection.Query<decimal?>(query, new { idUser }).FirstOrDefault();
+            }
+        }
+
+
+
     }
 }

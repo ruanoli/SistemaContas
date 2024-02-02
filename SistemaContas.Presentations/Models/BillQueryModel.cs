@@ -13,5 +13,7 @@ namespace SistemaContas.Presentations.Models
         /// Irá retornar a listagem das contas após a realização da cconsulta.
         /// </summary>
         public IList<Bill>? Bills { get; set; }
+        public decimal? TotalValuePay { get; set; }
+        public decimal? TotalValueToReceive { get; set; }
     }
 }

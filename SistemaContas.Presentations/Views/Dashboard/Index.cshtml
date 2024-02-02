@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json
-@using SistemaContas.Presentations.Models
+@model SistemaContas.Presentations.Models.BillQueryModel
 
 @{
     ViewData["Title"] = "Dashboard";
@@ -13,32 +13,44 @@
 
     ////descerealizar os dados do usuário. De json para um objeto.
     //var userModel = JsonConvert.DeserializeObject<UserModel>(data);
+
+
 }
 
 <h2>Controle de contas</h2>
 <h4>Resumo</h4>
 <hr />
 
-<form>
+@*<form>
     <div class="row mb-2">
         <div class="col-md-3">
-            <input type="date" class="form-control" />
+            <label><strong>Data Início:</strong></label>
+            @Html.TextBoxFor(x => x.StartDate, "{0:yyyy-MM-dd}",new {@class="form-control", @type="date"})
+            <span class="text-danger">
+                @Html.ValidationMessageFor(x=> x.StartDate)
+            </span>
+        </div>
+        <div class="col-md-3">
+            <label>Data Fim</label>
+            @Html.TextBoxFor(x => x.StartDate, )
         </div>
 
-        <div class="col-md-3">
-            <input type="date" class="form-control" />
-        </div>
+
+
 
         <div class="col-md-3">
             <input type="submit" class="btn btn-warning" value="Pesquisar Contas" />
         </div>
     </div>
-</form>
+</form>*@
+
 
 <div class="row mb-2">
+
+
     <div class="col-md-6">
         <h5>Contas a Receber</h5>
-        <p>Total: R$ 0,00</p>
+        <p><strong>Total: </strong><span class="badge badge-success">@(Model.TotalValueToReceive.HasValue ? Model.TotalValueToReceive.Value.ToString("c") : "R$ 0,00")</span></p>
 
         <div class="table-responsive mt-2">
             <table class="table table-hover table-sm">
@@ -51,21 +63,32 @@
                     </tr>
                 </thead>
 
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
+                @foreach (var item in Model.Bills)
+                {
+                    if(item.Type == 1)
+                    {
+                        <tbody>
+                            <tr>
+                                <td>@item.Date.Value.ToString("dd/MM/yyyy")</td>
+                                <td>@item.Name</td>
+                                <td>@item.Value.Value.ToString("c")</td>
+                                <td>@item.Category.Name</td>
+                            </tr>
+                        </tbody>
+                    }
+                    
+                }
+
+
             </table>
         </div>
     </div>
+
+
 
     <div class="col-md-6">
         <h5>Contas a Pagar</h5>
-        <p>Total: R$ 0,00</p>
+        <p><strong>Total: </strong><span class="badge badge-danger">@(Model.TotalValuePay.HasValue ? Model.TotalValuePay.Value.ToString("c") : "R$ 0,00")</span></p>
 
         <div class="table-responsive mt-2">
             <table class="table table-hover table-sm">
@@ -78,16 +101,27 @@
                     </tr>
                 </thead>
 
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
+                @foreach (var item in Model.Bills)
+                {
+                    if(item.Type == 2)
+                    {
+                        <tbody>
+                            <tr>
+                                <td>@item.Date.Value.ToString("dd/MM/yyyy")</td>
+                                <td>@item.Name</td>
+                                <td>@item.Value.Value.ToString("c")</td>
+                                <td>@item.Category.Name</td>
+                            </tr>
+                        </tbody>
+                    }
+                    
+                }
+
             </table>
         </div>
     </div>
+
+
+
 </div>
 
