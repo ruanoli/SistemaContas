@@ -239,6 +239,11 @@ namespace SistemaContas.Presentations.Controllers
                     TempData["MessageSuccess"] = "Conta excluída com sucesso";
 
                 }
+                else
+                {
+                    TempData["MessageAlert"] = "Conta não existe";
+
+                }
             }
             catch (Exception ex)
             {
