@@ -241,7 +241,7 @@ namespace SistemaContas.Presentations.Controllers
                 }
                 else
                 {
-                    TempData["MessageAlert"] = "Conta não existe";
+                    TempData["MessageAlert"] = "Conta não existe ";
 
                 }
             }
