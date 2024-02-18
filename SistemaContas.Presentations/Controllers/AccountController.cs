@@ -1,10 +1,13 @@
-﻿ 
+﻿
+using Bogus;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SistemaContas.Data.Entities;
 using SistemaContas.Data.Repositories;
+using SistemaContas.Messages.Models;
+using SistemaContas.Messages.Services;
 using SistemaContas.Presentations.Models;
 using System.Security.Claims;
 
@@ -70,12 +73,12 @@ namespace SistemaContas.Presentations.Controllers
                     }
                     else
                     {
-                        TempData["Message"] = "E-mail e/ou senha inválidos.";
+                        TempData["MessageAlert"] = "E-mail e/ou senha inválidos.";
                     }
                 }
                 catch
                 {
-                    TempData["Message"] = "Falha ao autenticar usuário";
+                    TempData["MessageError"] = "Falha ao autenticar usuário";
                 }
             }
 
@@ -126,7 +129,7 @@ namespace SistemaContas.Presentations.Controllers
                 }
                 catch (Exception ex)
                 {
-                    TempData["Message"] = "Falha ao cadastrar usuário!";
+                    TempData["MessageError"] = "Falha ao cadastrar usuário!";
                 }
             }
             return View();
@@ -139,7 +142,55 @@ namespace SistemaContas.Presentations.Controllers
 
         [HttpPost]
         public IActionResult PasswordRecover(AccountPasswordRecoverModel model)
-        {
+        { 
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    var userRepo = new UserRepository();
+                    var user = userRepo.GetByEmail(model.Email);
+
+                    var userLogado = JsonConvert.DeserializeObject<UserModel>(User.Identity.Name);
+
+
+                    if(user != null)
+                    {
+                        //Gera uma nova senha com 10 digitos utilizando a biblioteca Bogus.
+                        //A senha é gerada com letras maiúsculas e minusculas e com números, o @ interpolado é para forçarmos um ccaractere especial no final da senha.
+                        var newPassword = new Faker().Internet.Password(10) + "@";
+
+                        //criando o conteúdo do email.
+                        var emailModel = new EmailMessageModel();
+
+                        emailModel.EmailReceiver = user.Email;
+                        emailModel.Message = $@"
+                            <h4>Olá, <strong>{user.Name}</strong>! Uma nova senha foi gerada com sucesso. </h4>
+                            <p>Acesse sua conta com a senha <strong>{newPassword}</strong>. </p>
+                            <p>Em seguida, vá até o menu 'Usuário > Meus Dados' e modifique a senha.
+                            ";
+                        emailModel.Subject = "Recuperação de Senha - Sistema de Controle de Contas";
+
+                        //enviando a senha para o email do usuário
+                        EmailMessageService.SendMessage(emailModel);
+
+                        //alterar senha no banco
+                        userRepo.UpdatePassword(user.IdUser, newPassword);
+
+                        TempData["Message"] = "Senha Alterada com sucesso. Verifique sua caixa de e-mail";
+                        ModelState.Clear();
+
+                    }
+                    else
+                    {
+                        TempData["MessageAlert"] = "Usuário não encontrado";
+                    }
+                }
+                catch(Exception ex)
+                {
+                    TempData["MessageError"] = "Falha ao Recuperar Senha!";
+
+                }
+            }
             return View();
         }
 

@@ -35,6 +35,18 @@ namespace SistemaContas.Data.Repositories
             }
         }
 
+        public void UpdatePassword(Guid? idUser, string? newPassword)
+        {
+            var query = @"UPDATE USERREGISTER
+                          SET = CONVERT(VARCHAR(32), HASHBYTES('MD5', @newPassword ),2)
+                        WHERE IDUSER = @idUser";
+
+            using(var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))
+            {
+                connection.Execute(query, new {idUser, newPassword});
+            }
+        }
+
         public void Update(UserRegister user)
         {
             var query = @"UPDATE USERREGISTER 

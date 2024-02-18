@@ -10,10 +10,10 @@ namespace SistemaContas.Messages.Services
     /// </summary>
     public class EmailMessageService
     {
-        private static string? _email = null;
-        private static string? _smtp = null;
-        private static string? _password = null;
-        private static int? _port = null;
+        private static string _email = "csharpcoti@outlook.com";
+        private static string _smtp = "smtp-email.outlook.com";
+        private static string _password = "@Admin12345";
+        private static int _port = 587;
 
         /// <summary>
         /// Método para executar o envio de e-mail
@@ -30,11 +30,11 @@ namespace SistemaContas.Messages.Services
             #endregion
 
             #region Enviando Email
-            var smtpClient = new SmtpClient(_smtp, _port.Value);
+            var smtpClient = new SmtpClient(_smtp, _port);
             smtpClient.EnableSsl = true;
             smtpClient.Credentials = new NetworkCredential(_email, _password);
             smtpClient.Send(mailMessage);
-            #endregion
+            #endregion 
         }
     }
 }
