@@ -10,9 +10,9 @@ namespace SistemaContas.Messages.Services
     /// </summary>
     public class EmailMessageService
     {
-        private static string _email = "csharpcoti@outlook.com";
-        private static string _smtp = "smtp-email.outlook.com";
-        private static string _password = "@Admin12345";
+        private static string _email = "ruan1415oliveira@outlook.com";
+        private static string _smtp = "smtp-mail.outlook.com";
+        private static string _password = "";
         private static int _port = 587;
 
         /// <summary>

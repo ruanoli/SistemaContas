@@ -38,7 +38,7 @@ namespace SistemaContas.Data.Repositories
         public void UpdatePassword(Guid? idUser, string? newPassword)
         {
             var query = @"UPDATE USERREGISTER
-                          SET = CONVERT(VARCHAR(32), HASHBYTES('MD5', @newPassword ),2)
+                          SET PASSWORD = CONVERT(VARCHAR(32), HASHBYTES('MD5', @newPassword ),2)
                         WHERE IDUSER = @idUser";
 
             using(var connection = new SqlConnection(SqlServeConfiguration.ConnectionString))

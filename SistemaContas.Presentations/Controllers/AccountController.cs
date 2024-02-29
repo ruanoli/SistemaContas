@@ -150,7 +150,7 @@ namespace SistemaContas.Presentations.Controllers
                     var userRepo = new UserRepository();
                     var user = userRepo.GetByEmail(model.Email);
 
-                    var userLogado = JsonConvert.DeserializeObject<UserModel>(User.Identity.Name);
+                    //var userLogado = JsonConvert.DeserializeObject<UserModel>(User.Identity.Name);
 
 
                     if(user != null)
@@ -165,7 +165,7 @@ namespace SistemaContas.Presentations.Controllers
                         emailModel.EmailReceiver = user.Email;
                         emailModel.Message = $@"
                             <h4>Olá, <strong>{user.Name}</strong>! Uma nova senha foi gerada com sucesso. </h4>
-                            <p>Acesse sua conta com a senha <strong>{newPassword}</strong>. </p>
+                            <p>Acesse sua conta com a senh:a <h2><strong>{newPassword}</strong></h2>. </p>
                             <p>Em seguida, vá até o menu 'Usuário > Meus Dados' e modifique a senha.
                             ";
                         emailModel.Subject = "Recuperação de Senha - Sistema de Controle de Contas";
