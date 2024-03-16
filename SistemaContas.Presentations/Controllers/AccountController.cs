@@ -165,8 +165,8 @@ namespace SistemaContas.Presentations.Controllers
                         emailModel.EmailReceiver = user.Email;
                         emailModel.Message = $@"
                             <h4>Olá, <strong>{user.Name}</strong>! Uma nova senha foi gerada com sucesso. </h4>
-                            <p>Acesse sua conta com a senh:a <h2><strong>{newPassword}</strong></h2>. </p>
-                            <p>Em seguida, vá até o menu 'Usuário > Meus Dados' e modifique a senha.
+                            <p>Acesse sua conta com a senh:a <h4><strong>{newPassword}</strong></h4>.
+                            Em seguida, vá até o menu 'Usuário > Meus Dados' e modifique a senha. </p>
                             ";
                         emailModel.Subject = "Recuperação de Senha - Sistema de Controle de Contas";
 

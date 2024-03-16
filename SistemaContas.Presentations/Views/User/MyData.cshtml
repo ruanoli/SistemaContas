@@ -1,0 +1,76 @@
+﻿@*@model SistemaContas.Presentations.Models.ChangePasswordModel*@
+@model SistemaContas.Presentations.Models.ChangePasswordModel
+
+@using Newtonsoft.Json
+@using SistemaContas.Presentations.Models
+
+@{
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+    var userModel = JsonConvert.DeserializeObject<UserModel>(User.Identity.Name);
+}
+
+<h4>Dados do Usuário</h4>
+
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Nome:</th>
+                <th>E-mail:</th>
+                <th>Data/Hora de Acesso:</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@userModel.Name</td>
+                <td>@userModel.Email</td>
+                <td>@userModel.DateTimeAcess</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<hr />
+
+<span class="btn btn-warning btnChangePass mb-2"><strong>Clique aqui se deseja alterar sua senha.</strong></span>
+
+<div class="changePassword" style="display:none">
+    <h4>Alterar Senha</h4>
+    @using (Html.BeginForm())
+    {
+        <div class="row mb-2">
+            <div class="col-md-3">
+                <label>Nova Senha:</label>
+                @Html.PasswordFor(x => x.NewPassword, new {@class="form-control"})
+                <span class="text-danger">
+                    @Html.ValidationMessageFor(x => x.NewPassword)
+                </span>
+            </div>
+            <div class="col-md-3">
+                <label>Confirmar Senha:</label>
+                @Html.PasswordFor(x => x.NewPasswordConfirmed , new {@class="form-control"})
+                <span class="text-danger">
+                    @Html.ValidationMessageFor(x => x.NewPasswordConfirmed)
+                </span>
+            </div>
+        </div>
+        <div class="mb-">
+            <input type="submit" value="Confirmar" class="btn btn-dark" />
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".btnChangePass").click(function () {
+                $(".changePassword").show();
+                $(".btnChangePass").hide();
+            });
+        });
+    </script>
+}
+

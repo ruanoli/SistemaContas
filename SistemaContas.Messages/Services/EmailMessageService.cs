@@ -12,7 +12,7 @@ namespace SistemaContas.Messages.Services
     {
         private static string _email = "ruan1415oliveira@outlook.com";
         private static string _smtp = "smtp-mail.outlook.com";
-        private static string _password = "";
+        private static string _password = "Ru@n22099910";
         private static int _port = 587;
 
         /// <summary>

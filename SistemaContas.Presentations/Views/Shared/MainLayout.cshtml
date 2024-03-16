@@ -32,10 +32,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="Dashboard/Index">Dashboard</a>
+                        <a class="nav-link" href="/Dashboard/Index">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="User/MyAccount">Minha Conta</a>
+                        <a class="nav-link" href="/User/MyData">Meus Dados</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -70,6 +70,9 @@
             </div>
         </div>
     </nav>
+
+    @RenderSection("Scripts", required: false)
+
 
     @if (TempData["MessageSuccess"] != null)
     {
@@ -108,11 +111,11 @@
     </div>
 
 
-    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+@*    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+*@    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+@*    <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+*@
     <script type="text/javascript">
         $(document).ready(function () {
             $('.dropdown-toggle').dropdown();
